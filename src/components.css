@@ -1,0 +1,965 @@
+/* Component-specific styles for Soccer Codenames */
+
+/* Team Panel Styles */
+.team-panel {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.panel-title {
+  margin: 0 0 1.5rem 0;
+  color: #4ade80;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.teams-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.team-section {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.team-section.current-team {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+}
+
+.team-section.red {
+  border-left: 4px solid #ef4444;
+}
+
+.team-section.blue {
+  border-left: 4px solid #3b82f6;
+}
+
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.team-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.team-color-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.team-color-indicator.red {
+  background: #ef4444;
+}
+
+.team-color-indicator.blue {
+  background: #3b82f6;
+}
+
+.team-title h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #f3f4f6;
+}
+
+.active-turn-icon {
+  color: #4ade80;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.team-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.progress-bar {
+  width: 80px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  transition: width 0.3s;
+}
+
+.progress-fill.red {
+  background: #ef4444;
+}
+
+.progress-fill.blue {
+  background: #3b82f6;
+}
+
+.progress-text {
+  font-size: 0.8rem;
+  color: #d1d5db;
+  font-weight: 600;
+}
+
+.team-members {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.role-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.role-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #9ca3af;
+}
+
+.player-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.player-item.current-player {
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.player-item.spymaster {
+  border-left: 3px solid #f59e0b;
+}
+
+.player-name {
+  font-size: 0.9rem;
+  color: #f3f4f6;
+  font-weight: 500;
+}
+
+.online-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.online-indicator.online {
+  background: #10b981;
+}
+
+.online-indicator.offline {
+  background: #6b7280;
+}
+
+.empty-slot {
+  padding: 0.75rem;
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.operatives-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.winner-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: linear-gradient(45deg, #f59e0b, #d97706);
+  color: #000000;
+  font-weight: 700;
+  border-radius: 8px;
+  margin-top: 1rem;
+  animation: celebration 2s infinite;
+}
+
+@keyframes celebration {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+.current-player-info {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.current-player-info h3 {
+  margin: 0 0 0.5rem 0;
+  color: #4ade80;
+  font-size: 1rem;
+}
+
+.player-status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.team-badge, .role-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.team-badge.red {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.team-badge.blue {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+}
+
+.role-badge.spymaster {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+}
+
+.role-badge.operative {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.no-assignment {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.game-status-info {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.game-status-info h3 {
+  margin: 0 0 0.75rem 0;
+  color: #4ade80;
+  font-size: 1rem;
+}
+
+.status-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #d1d5db;
+}
+
+.status-item.active {
+  color: #4ade80;
+  font-weight: 600;
+}
+
+/* Clue Panel Styles */
+.clue-panel {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.current-clue {
+  margin-bottom: 2rem;
+}
+
+.current-clue h3 {
+  margin: 0 0 0.75rem 0;
+  color: #4ade80;
+  font-size: 1rem;
+}
+
+.clue-display {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 4px solid;
+}
+
+.clue-display.red {
+  border-left-color: #ef4444;
+}
+
+.clue-display.blue {
+  border-left-color: #3b82f6;
+}
+
+.clue-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.clue-word {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f3f4f6;
+}
+
+.clue-count {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #9ca3af;
+}
+
+.clue-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.team-indicator {
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.7rem;
+}
+
+.team-indicator.red {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.team-indicator.blue {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+}
+
+.clue-time {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #6b7280;
+}
+
+.clue-input-section {
+  margin-bottom: 2rem;
+}
+
+.clue-input-section h3 {
+  margin: 0 0 1rem 0;
+  color: #4ade80;
+  font-size: 1rem;
+}
+
+.clue-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.clue-word-input, .clue-count-select {
+  padding: 0.75rem;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.clue-word-input:focus, .clue-count-select:focus {
+  outline: none;
+  border-color: #4ade80;
+}
+
+.submit-clue-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #4ade80;
+  color: #000000;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submit-clue-button:hover:not(:disabled) {
+  background: #22c55e;
+  transform: translateY(-1px);
+}
+
+.submit-clue-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.clue-rules {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.clue-rules h4 {
+  margin: 0 0 0.5rem 0;
+  color: #f59e0b;
+  font-size: 0.9rem;
+}
+
+.clue-rules ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 0.8rem;
+  color: #d1d5db;
+  line-height: 1.4;
+}
+
+.clue-rules li {
+  margin-bottom: 0.3rem;
+}
+
+.operative-actions {
+  margin-bottom: 2rem;
+}
+
+.operative-actions h3 {
+  margin: 0 0 0.75rem 0;
+  color: #4ade80;
+  font-size: 1rem;
+}
+
+.operative-actions p {
+  color: #d1d5db;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.end-turn-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #f59e0b;
+  color: #000000;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 1rem;
+}
+
+.end-turn-button:hover {
+  background: #d97706;
+  transform: translateY(-1px);
+}
+
+.turn-info {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.turn-info p {
+  margin: 0 0 0.5rem 0;
+  color: #f59e0b;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.turn-info ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 0.8rem;
+  color: #d1d5db;
+  line-height: 1.4;
+}
+
+.turn-info li {
+  margin-bottom: 0.3rem;
+}
+
+.clue-history h3 {
+  margin: 0 0 0.75rem 0;
+  color: #4ade80;
+  font-size: 1rem;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  border-left: 3px solid;
+}
+
+.history-item.red {
+  border-left-color: #ef4444;
+}
+
+.history-item.blue {
+  border-left-color: #3b82f6;
+}
+
+.history-clue {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.history-word {
+  font-weight: 600;
+  color: #f3f4f6;
+}
+
+.history-count {
+  color: #9ca3af;
+}
+
+.history-team {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.waiting-state {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.waiting-state h3 {
+  margin: 0 0 0.5rem 0;
+  color: #6b7280;
+}
+
+.waiting-state p {
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* Player Assignment Styles */
+.player-assignment {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.assignment-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.assignment-header h2 {
+  margin: 1rem 0;
+  color: #4ade80;
+  font-size: 2rem;
+}
+
+.assignment-header p {
+  color: #d1d5db;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.assignment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.assignment-card {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.assignment-card.red {
+  border-left: 4px solid #ef4444;
+}
+
+.assignment-card.blue {
+  border-left: 4px solid #3b82f6;
+}
+
+.assignment-card:hover {
+  transform: translateY(-2px);
+  border-color: #4ade80;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-header h3 {
+  margin: 0;
+  color: #f3f4f6;
+  font-size: 1.3rem;
+}
+
+.team-composition {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.role-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+
+.role-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #f3f4f6;
+  font-weight: 500;
+}
+
+.status-indicator .filled {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.status-indicator .empty {
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.assignment-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.assign-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.assign-button.spymaster {
+  background: #f59e0b;
+  color: #000000;
+}
+
+.assign-button.spymaster:hover:not(:disabled) {
+  background: #d97706;
+  transform: translateY(-1px);
+}
+
+.assign-button.operative {
+  background: #22c55e;
+  color: #000000;
+}
+
+.assign-button.operative:hover:not(:disabled) {
+  background: #16a34a;
+  transform: translateY(-1px);
+}
+
+.assign-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.team-full {
+  text-align: center;
+  padding: 0.75rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.role-descriptions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.role-desc {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  color: #d1d5db;
+  line-height: 1.4;
+}
+
+.assignment-info {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.assignment-info h3 {
+  margin: 0 0 1.5rem 0;
+  color: #4ade80;
+  font-size: 1.3rem;
+}
+
+.requirements-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.requirement {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #d1d5db;
+}
+
+.req-icon {
+  width: 1.5rem;
+  text-align: center;
+}
+
+.setup-tips h4 {
+  margin: 0 0 1rem 0;
+  color: #f59e0b;
+  font-size: 1.1rem;
+}
+
+.setup-tips ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: #d1d5db;
+  line-height: 1.5;
+}
+
+.setup-tips li {
+  margin-bottom: 0.5rem;
+}
+
+.assignment-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.assignment-loading span {
+  color: #f3f4f6;
+  font-weight: 500;
+}
+
+/* Waiting Area Styles */
+.waiting-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.waiting-message {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 500px;
+}
+
+.waiting-message h3 {
+  margin: 1rem 0;
+  color: #4ade80;
+  font-size: 1.5rem;
+}
+
+.waiting-message p {
+  color: #d1d5db;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.start-game-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: #4ade80;
+  color: #000000;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.start-game-button:hover:not(:disabled) {
+  background: #22c55e;
+  transform: translateY(-2px);
+}
+
+.start-game-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Game Over Overlay */
+.game-over-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.game-over-content {
+  background: linear-gradient(135deg, #1a4d3a, #2d5a4a);
+  border-radius: 16px;
+  padding: 3rem;
+  text-align: center;
+  border: 2px solid #4ade80;
+  max-width: 400px;
+  animation: slideUp 0.5s;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.game-over-content h2 {
+  margin: 1rem 0;
+  color: #4ade80;
+  font-size: 2rem;
+}
+
+.game-over-content p {
+  color: #d1d5db;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+/* Responsive Design for Components */
+@media (max-width: 768px) {
+  .assignment-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .requirements-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .team-panel, .clue-panel {
+    padding: 1rem;
+  }
+  
+  .panel-title {
+    font-size: 1.1rem;
+  }
+  
+  .waiting-message {
+    padding: 2rem 1rem;
+  }
+  
+  .game-over-content {
+    margin: 1rem;
+    padding: 2rem;
+  }
+}
