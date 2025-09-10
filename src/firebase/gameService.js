@@ -14,7 +14,7 @@ import {
   serverTimestamp
 } from 'firebase/firestore';
 import { db } from './config.js';
-import { createNewGame, addPlayerToGame, assignPlayerToTeam, revealCard, giveClue, endTurn, startGame } from '../utils/gameLogic.js';
+import { createNewGame, addPlayerToGame, assignPlayerToTeam, revealCard, giveClue, endTurn, startGame, restartGame } from '../utils/gameLogic.js';
 
 // Collection names
 const COLLECTIONS = {
@@ -481,5 +481,53 @@ export const updatePlayerStatus = async (gameId, playerId, isOnline) => {
     }
   } catch (error) {
     console.error('Error updating player status:', error);
+  }
+};
+
+/**
+ * Restarts a finished game with new words and resets teams
+ * @param {string} gameId - Game ID
+ * @param {string} playerId - ID of player requesting restart (usually game creator)
+ * @param {boolean} useAI - Whether to use AI to generate new words
+ * @returns {Promise<void>}
+ */
+export const restartGameSession = async (gameId, playerId, useAI = true) => {
+  try {
+    const gameRef = doc(db, COLLECTIONS.GAMES, gameId);
+    const gameSnap = await getDoc(gameRef);
+    
+    if (!gameSnap.exists()) {
+      throw new Error('Game not found');
+    }
+    
+    const currentGame = gameSnap.data();
+    
+    // Verify game is finished and player has permission to restart
+    if (currentGame.phase !== 'finished') {
+      throw new Error('Can only restart finished games');
+    }
+    
+    // Only game creator can restart (or we can allow anyone)
+    if (currentGame.createdBy && currentGame.createdBy !== playerId) {
+      console.warn('Non-creator attempted to restart game, allowing anyway...');
+      // We'll allow anyone to restart for better UX
+    }
+    
+    console.log(`🔄 Restarting game ${gameId}...`);
+    
+    // Generate new game state
+    const restartedGame = await restartGame(currentGame, useAI);
+    
+    // Update the game in Firestore
+    await updateDoc(gameRef, {
+      ...restartedGame,
+      updatedAt: serverTimestamp()
+    });
+    
+    console.log(`✅ Game ${gameId} restarted successfully`);
+    
+  } catch (error) {
+    console.error('Error restarting game:', error);
+    throw error;
   }
 };

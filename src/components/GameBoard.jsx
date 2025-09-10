@@ -11,13 +11,15 @@ import {
   revealCardInGame, 
   giveClueInGame, 
   endTurnInGame,
-  resetGamePlayers
+  resetGamePlayers,
+  restartGameSession
 } from '../firebase/gameService';
 import { GAME_PHASES, TEAMS, ROLES, getGameStatus } from '../utils/gameLogic';
 
 const GameBoard = ({ gameState, playerId, playerName, onLeaveGame }) => {
   const [showSpymasterView, setShowSpymasterView] = useState(false);
   const [isAssigning, setIsAssigning] = useState(false);
+  const [isRestarting, setIsRestarting] = useState(false);
 
   const currentPlayer = gameState?.players[playerId];
   const gameStatus = gameState ? getGameStatus(gameState, playerId) : null;
@@ -75,6 +77,24 @@ const GameBoard = ({ gameState, playerId, playerName, onLeaveGame }) => {
       }
     } catch (error) {
       toast.error(error.message || 'Failed to reveal card');
+    }
+  };
+
+  const handleRestartGame = async () => {
+    if (!gameState || isRestarting) return;
+
+    setIsRestarting(true);
+    try {
+      // Check if we should use AI words (same as current game setting)
+      const useAI = gameState.settings?.wordsGeneratedBy === 'ai';
+      
+      await restartGameSession(gameState.id, playerId, useAI);
+      toast.success('🔄 Game restarted! Please select your teams again.');
+    } catch (error) {
+      toast.error(error.message || 'Failed to restart game');
+      console.error('Restart game error:', error);
+    } finally {
+      setIsRestarting(false);
     }
   };
 
@@ -249,6 +269,19 @@ const GameBoard = ({ gameState, playerId, playerName, onLeaveGame }) => {
                 <Crown size={64} />
                 <h2>{gameState.winner?.toUpperCase()} TEAM WINS!</h2>
                 <p>Congratulations to all the winners! 🎉</p>
+                
+                <div className="game-over-actions">
+                  <button
+                    onClick={handleRestartGame}
+                    className="restart-game-button"
+                    disabled={isRestarting}
+                  >
+                    {isRestarting ? 'Starting New Game...' : '🔄 Start New Game'}
+                  </button>
+                  <p className="restart-info">
+                    This will generate new words and reset all teams. Everyone can choose new roles!
+                  </p>
+                </div>
               </div>
             </div>
           )}

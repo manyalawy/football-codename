@@ -501,6 +501,88 @@ export const validateCardDistribution = (cards, startingTeam) => {
 };
 
 /**
+ * Restarts a finished game back to waiting phase
+ * @param {Object} game - Current game state
+ * @param {boolean} useAI - Whether to use AI to generate new words
+ * @returns {Promise<Object>} Updated game object ready for new round
+ */
+export const restartGame = async (game, useAI = true) => {
+  if (game.phase !== GAME_PHASES.FINISHED) {
+    throw new Error('Can only restart finished games');
+  }
+
+  console.log('🔄 Restarting game with new words...');
+  
+  // Generate new words
+  let words;
+  try {
+    if (useAI) {
+      console.log('🤖 Generating new game with AI words...');
+      words = await getSoccerWordsWithAI(25);
+    } else {
+      console.log('📋 Generating new game with hardcoded words...');
+      words = getBalancedSoccerWords(25);
+    }
+  } catch (error) {
+    console.error('Failed to generate words with AI, falling back to hardcoded:', error);
+    words = getBalancedSoccerWords(25);
+  }
+  
+  // Pick new starting team
+  const startingTeam = Math.random() < 0.5 ? TEAMS.RED : TEAMS.BLUE;
+  const cards = generateCards(words, startingTeam);
+  
+  // Validate card distribution for debugging
+  const validation = validateCardDistribution(cards, startingTeam);
+  console.log('🎲 Game restarted with starting team:', startingTeam);
+  console.log('📊 Card distribution:', validation.counts);
+  if (!validation.isValid) {
+    console.error('❌ Invalid card distribution detected!', validation);
+  }
+  
+  // Reset all players to unassigned state but keep them in the game
+  const resetPlayers = {};
+  Object.keys(game.players).forEach(playerId => {
+    resetPlayers[playerId] = {
+      ...game.players[playerId],
+      team: null,
+      role: null,
+      status: 'waiting'
+    };
+  });
+
+  return {
+    ...game,
+    phase: GAME_PHASES.WAITING,
+    currentTeam: startingTeam,
+    startingTeam,
+    cards,
+    players: resetPlayers,
+    teams: {
+      [TEAMS.RED]: {
+        spymaster: null,
+        operatives: [],
+        cardsTotal: startingTeam === TEAMS.RED ? 9 : 8,
+        cardsRevealed: 0
+      },
+      [TEAMS.BLUE]: {
+        spymaster: null,
+        operatives: [],
+        cardsTotal: startingTeam === TEAMS.BLUE ? 9 : 8,
+        cardsRevealed: 0
+      }
+    },
+    winner: null,
+    currentClue: null,
+    gameHistory: [],
+    settings: {
+      ...game.settings,
+      wordsGeneratedBy: useAI ? 'ai' : 'hardcoded'
+    }
+  };
+};
+
+/**
  * Gets the current game status for a player
  * @param {Object} game - Current game state
  * @param {string} playerId - Player ID
