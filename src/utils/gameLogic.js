@@ -52,8 +52,16 @@ export const createNewGame = async (gameId = null, creatorId = null, useAI = tru
     words = getBalancedSoccerWords(25);
   }
   
-  const cards = generateCards(words);
   const startingTeam = Math.random() < 0.5 ? TEAMS.RED : TEAMS.BLUE;
+  const cards = generateCards(words, startingTeam);
+  
+  // Validate card distribution for debugging
+  const validation = validateCardDistribution(cards, startingTeam);
+  console.log('🎲 Game created with starting team:', startingTeam);
+  console.log('📊 Card distribution:', validation.counts);
+  if (!validation.isValid) {
+    console.error('❌ Invalid card distribution detected!', validation);
+  }
   
   return {
     id: gameId || uuidv4(),
@@ -93,18 +101,17 @@ export const createNewGame = async (gameId = null, creatorId = null, useAI = tru
 /**
  * Generates cards for the game board
  * @param {Array} words - Array of 25 words
+ * @param {string} startingTeam - The team that starts first (gets 9 cards)
  * @returns {Array} Array of card objects
  */
-export const generateCards = (words) => {
+export const generateCards = (words, startingTeam) => {
   if (words.length !== 25) {
     throw new Error('Exactly 25 words are required for the game');
   }
 
-  // Determine starting team (gets 9 cards, other team gets 8)
-  const startingTeam = Math.random() < 0.5 ? TEAMS.RED : TEAMS.BLUE;
   const otherTeam = startingTeam === TEAMS.RED ? TEAMS.BLUE : TEAMS.RED;
 
-  // Create card type distribution
+  // Create card type distribution - starting team gets 9 cards, other team gets 8
   const cardTypes = [
     ...Array(9).fill(startingTeam),
     ...Array(8).fill(otherTeam),
@@ -451,6 +458,46 @@ export const startGame = (game) => {
   });
 
   return updatedGame;
+};
+
+/**
+ * Validates card distribution and counts for debugging
+ * @param {Array} cards - Array of game cards
+ * @param {string} startingTeam - Expected starting team
+ * @returns {Object} Card count summary
+ */
+export const validateCardDistribution = (cards, startingTeam) => {
+  const counts = {
+    [TEAMS.RED]: 0,
+    [TEAMS.BLUE]: 0,
+    [CARD_TYPES.NEUTRAL]: 0,
+    [CARD_TYPES.ASSASSIN]: 0
+  };
+
+  cards.forEach(card => {
+    counts[card.type]++;
+  });
+
+  const expectedStartingCount = 9;
+  const expectedOtherCount = 8;
+  const otherTeam = startingTeam === TEAMS.RED ? TEAMS.BLUE : TEAMS.RED;
+
+  return {
+    counts,
+    isValid: 
+      counts[startingTeam] === expectedStartingCount &&
+      counts[otherTeam] === expectedOtherCount &&
+      counts[CARD_TYPES.NEUTRAL] === 7 &&
+      counts[CARD_TYPES.ASSASSIN] === 1,
+    startingTeam,
+    otherTeam,
+    expectedCounts: {
+      [startingTeam]: expectedStartingCount,
+      [otherTeam]: expectedOtherCount,
+      [CARD_TYPES.NEUTRAL]: 7,
+      [CARD_TYPES.ASSASSIN]: 1
+    }
+  };
 };
 
 /**
